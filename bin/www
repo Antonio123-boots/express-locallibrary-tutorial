@@ -4,43 +4,40 @@
  * Module dependencies.
  */
 
-var app = require("../app");
-var debug = require("debug")("express-locallibrary-tutorial:server");
-var http = require("http");
+var app = require('../app');
+var debug = require('debug')('local-library:server');
+var http = require('http');
 
 /**
  * Get port from environment and store in Express.
  */
 
-let port = normalizePort(process.env.PORT || "3000");
-app.set("port", port);
+var port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
 
-/**
- * Set up mongoose connection
- */
+//Set up mongoose connection
 const mongoose = require("mongoose");
-const dev_db_url =
-  "mongodb+srv://cooluser:coolpassword@cluster0.cojoign.mongodb.net/local_library?retryWrites=true&w=majority&appName=Cluster0";
-const mongoDB = process.env.MONGODB_URI || dev_db_url;
+
+const mongoDB = "mongodb+srv://dbUser:GJ1Cp857OQNUbUny@cluster0.eyrji4c.mongodb.net/?appName=Cluster0";
+
+async function connectMongoose() {
+  await mongoose.connect(mongoDB);
+
+  // Add connection error handlers
+  mongoose.connection.on("error", (err) => {
+    console.error("MongoDB connection error:", err);
+  });
+
+  mongoose.connection.on("disconnected", () => {
+    console.warn("MongoDB disconnected");
+  });
+}
 
 try {
   connectMongoose();
 } catch (err) {
   console.error("Failed to connect to MongoDB:", err);
   process.exit(1);
-}
-
-async function connectMongoose() {
-  await mongoose.connect(mongoDB);
-  
-  // Add connection error handlers
-  mongoose.connection.on('error', err => {
-    console.error('MongoDB connection error:', err);
-  });
-  
-  mongoose.connection.on('disconnected', () => {
-    console.warn('MongoDB disconnected');
-  });
 }
 
 /**
@@ -54,44 +51,8 @@ var server = http.createServer(app);
  */
 
 server.listen(port);
-server.on("error", onError);
-server.on("listening", onListening);
-
-/**
- * Event listener for HTTP server "error" event.
- */
-
-function onError(error) {
-  if (error.syscall !== "listen") {
-    throw error;
-  }
-
-  var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
-
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case "EACCES":
-      console.error(bind + " requires elevated privileges");
-      process.exit(1);
-      break;
-    case "EADDRINUSE":
-      console.error(bind + " is already in use");
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-}
-
-/**
- * Event listener for HTTP server "listening" event.
- */
-
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
-  debug("Listening on " + bind);
-}
+server.on('error', onError);
+server.on('listening', onListening);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -111,4 +72,44 @@ function normalizePort(val) {
   }
 
   return false;
+}
+
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
 }

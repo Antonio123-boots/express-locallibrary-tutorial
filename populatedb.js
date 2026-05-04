@@ -18,6 +18,7 @@ const books = [];
 const bookinstances = [];
 
 const mongoose = require("mongoose");
+mongoose.set("strictQuery", false);
 
 const mongoDB = userArgs[0];
 
@@ -32,7 +33,7 @@ async function main() {
   await createBooks();
   await createBookInstances();
   console.log("Debug: Closing mongoose");
-  await mongoose.connection.close();
+  mongoose.connection.close();
 }
 
 // We pass the index to the ...Create functions so that, for example,

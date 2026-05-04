@@ -1,6 +1,6 @@
 const express = require("express");
 
-// Require our controllers.
+// Require controller modules.
 const book_controller = require("../controllers/bookController");
 const author_controller = require("../controllers/authorController");
 const genre_controller = require("../controllers/genreController");
@@ -34,7 +34,7 @@ router.post("/book/:id/update", book_controller.book_update_post);
 // GET request for one Book.
 router.get("/book/:id", book_controller.book_detail);
 
-// GET request for list of all Book.
+// GET request for list of all Book items.
 router.get("/books", book_controller.book_list);
 
 /// AUTHOR ROUTES ///
@@ -48,7 +48,7 @@ router.post("/author/create", author_controller.author_create_post);
 // GET request to delete Author.
 router.get("/author/:id/delete", author_controller.author_delete_get);
 
-// POST request to delete Author
+// POST request to delete Author.
 router.post("/author/:id/delete", author_controller.author_delete_post);
 
 // GET request to update Author.
@@ -94,37 +94,37 @@ router.get("/genres", genre_controller.genre_list);
 // GET request for creating a BookInstance. NOTE This must come before route that displays BookInstance (uses id).
 router.get(
   "/bookinstance/create",
-  book_instance_controller.bookinstance_create_get
+  book_instance_controller.bookinstance_create_get,
 );
 
 // POST request for creating BookInstance.
 router.post(
   "/bookinstance/create",
-  book_instance_controller.bookinstance_create_post
+  book_instance_controller.bookinstance_create_post,
 );
 
 // GET request to delete BookInstance.
 router.get(
   "/bookinstance/:id/delete",
-  book_instance_controller.bookinstance_delete_get
+  book_instance_controller.bookinstance_delete_get,
 );
 
 // POST request to delete BookInstance.
 router.post(
   "/bookinstance/:id/delete",
-  book_instance_controller.bookinstance_delete_post
+  book_instance_controller.bookinstance_delete_post,
 );
 
 // GET request to update BookInstance.
 router.get(
   "/bookinstance/:id/update",
-  book_instance_controller.bookinstance_update_get
+  book_instance_controller.bookinstance_update_get,
 );
 
 // POST request to update BookInstance.
 router.post(
   "/bookinstance/:id/update",
-  book_instance_controller.bookinstance_update_post
+  book_instance_controller.bookinstance_update_post,
 );
 
 // GET request for one BookInstance.

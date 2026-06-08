@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title
+  if errors
+    ul.errors
+      each error in errors
+        li= error.msg
+  form(method="post" action="")
+    div
+      label(for="name") Nome do esporte:
+      input#name(type="text" name="name" value=sport.name)
+    div
+      button(type="submit") Salvar
+      a(href="/sports") Voltar

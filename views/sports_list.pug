@@ -1,0 +1,40 @@
+extends layout
+
+block content
+  h1= title
+  p Aqui você pode ver todos os esportes, categorias e atletas cadastrados.
+
+  h2 Esportes
+  if sports.length
+    ul
+      each sport in sports
+        li= sport.name
+  else
+    p Nenhum esporte cadastrado.
+
+  h2 Categorias
+  if categories.length
+    ul
+      each category in categories
+        li= category.name
+  else
+    p Nenhuma categoria cadastrada.
+
+  h2 Atletas
+  if athletes.length
+    ul
+      each athlete in athletes
+        li
+          | #{athlete.name} —
+          if athlete.sport
+            |  #{athlete.sport.name}
+          if athlete.category
+            |  (#{athlete.category.name})
+  else
+    p Nenhum atleta cadastrado.
+
+  hr
+  ul
+    li: a(href="/sports/sport/create") Cadastrar esporte
+    li: a(href="/sports/category/create") Cadastrar categoria
+    li: a(href="/sports/athlete/create") Cadastrar atleta

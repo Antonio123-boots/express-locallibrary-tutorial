@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  h1= title
+  if errors
+    ul.errors
+      each error in errors
+        li= error.msg
+  form(method="post" action="")
+    div
+      label(for="first_name") Nome:
+      input#first_name(type="text" name="first_name" value=athlete.first_name)
+    div
+      label(for="last_name") Sobrenome:
+      input#last_name(type="text" name="last_name" value=athlete.last_name)
+    div
+      label(for="sport") Esporte:
+      select#sport(name="sport")
+        option(value="") -- selecione --
+        each sport in sports
+          option(value=sport._id selected=(athlete.sport && athlete.sport.toString() === sport._id.toString()))= sport.name
+    div
+      label(for="category") Categoria:
+      select#category(name="category")
+        option(value="") -- selecione --
+        each category in categories
+          option(value=category._id selected=(athlete.category && athlete.category.toString() === category._id.toString()))= category.name
+    div
+      button(type="submit") Salvar
+      a(href="/sports") Voltar

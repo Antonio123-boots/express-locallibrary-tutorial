@@ -15,10 +15,12 @@ var http = require('http');
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-//Set up mongoose connection
+// Set up mongoose connection
 const mongoose = require("mongoose");
 
-const mongoDB = "mongodb+srv://dbUser:GJ1Cp857OQNUbUny@cluster0.eyrji4c.mongodb.net/?appName=Cluster0";
+const dev_db_url =
+  "mongodb+srv://antoniostuartg_db_user:1AAWI23tQzYIhaY1@cluster0.delvpan.mongodb.net/?appName=Cluster0";
+const mongoDB = process.env.MONGODB_URI || dev_db_url;
 
 async function connectMongoose() {
   await mongoose.connect(mongoDB);
@@ -33,12 +35,10 @@ async function connectMongoose() {
   });
 }
 
-try {
-  connectMongoose();
-} catch (err) {
+connectMongoose().catch((err) => {
   console.error("Failed to connect to MongoDB:", err);
   process.exit(1);
-}
+});
 
 /**
  * Create HTTP server.
